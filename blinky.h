@@ -33,34 +33,3 @@ void SysClockConfig (void)
 }
 
 
-void GPIO_Config (void)
-{
-	
-	RCC->AHB1ENR |= (1<<0);
-
-	GPIOA->MODER |= (1<<10);  // pin PA5(bits 11:10) as Output (01)
-
-	GPIOA->OTYPER = 0;
-	GPIOA->OSPEEDR = 0;
-}
-
-void delay (uint32_t time)
-{
-	while (time--);
-}
-
-int main (void)
-{
-
-	SysClockConfig ();
-	GPIO_Config ();
-
-	while (1)
-	{
-		GPIOA->BSRR |= (1<<5);  // Set the pin PA5
-		delay (20000000);
-		GPIOA->BSRR |= ((1<<5) <<16);  // Reset pin PA5
-		delay (20000000);
-	}
-}
-
